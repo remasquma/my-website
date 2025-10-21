@@ -1,156 +1,341 @@
-﻿<!DOCTYPE html>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sofa Store</title>
 
-    <title>sofa store</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Jersey+15&family=Nova+Square&family=Oswald:wght@200..700&family=Pacifico&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+VN:wght@100..400&family=Righteous&family=Rubik+Mono+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/design.css" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Nova+Square&family=Oswald:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#a3c3d0;
+      --primary:#194569;
+      --accent:#ffc300;
+      --ink:#000814;
+      --white:#fff;
+      --muted:#6b7280;
+      --shadow:0 12px 24px rgba(0,0,0,.12);
+      --radius:20px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;scroll-behavior:smooth;background:var(--bg);color:#111}
+    img{max-width:100%;height:auto;display:block}
+    a{color:inherit;text-decoration:none}
+
+    /* Header / Nav */
+    header{background:var(--primary);color:var(--white)}
+    .nav{
+      max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;
+      padding:16px 20px;
+    }
+    .brand{
+      font-family:"Playfair Display",serif;
+      font-weight:700;letter-spacing:.2em;
+    }
+
+    /* Hamburger */
+    .hamb{display:none;gap:8px;flex-direction:column;cursor:pointer}
+    .hamb span{width:26px;height:2px;background:var(--white)}
+
+    .menu{display:flex;gap:28px;align-items:center}
+    .menu a{font-family:"Oswald",sans-serif;font-weight:500;opacity:.95}
+    .icons{display:flex;gap:14px}
+    .icons img{width:24px}
+
+    /* Hero */
+    .hero{
+      max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:32px;
+      padding:40px 20px 64px;
+      align-items:center;
+    }
+    .hero h1{
+      font-family:"Oswald",sans-serif;
+      color:var(--white);font-size:clamp(28px,5vw,54px);line-height:1.1;margin:0 0 16px
+    }
+    .hero p{
+      color:var(--white);opacity:.95;max-width:52ch;margin:0
+    }
+    .cta{display:flex;gap:12px;margin-top:26px}
+    .btn{
+      padding:14px 22px;border-radius:999px;font-weight:700;border:2px solid var(--white);cursor:pointer;
+      background:transparent;color:var(--white);
+    }
+    .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--primary)}
+    .hero-img{filter:drop-shadow(0 18px 28px rgba(0,0,0,.3));justify-self:end}
+    .hero-img img{width:min(560px,90vw)}
+
+    /* Section base */
+    section{max-width:1200px;margin:0 auto;padding:80px 20px;background:transparent}
+
+    /* Crafted */
+    .crafted{
+      display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start
+    }
+    .crafted h2{
+      font-family:"Oswald",sans-serif;font-size:clamp(24px,4vw,40px);margin:0 0 10px;color:#111
+    }
+    .crafted p{color:var(--muted);max-width:60ch}
+    .crafted .ghost{margin-top:18px}
+    .ghost{background:var(--ink);color:#fff;border:none}
+
+    /* Products */
+    .products{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:24px
+    }
+    .card{
+      background:#f8fafc;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;text-align:center;padding:18px
+    }
+    .card h3{margin:12px 0 6px;font-family:"Oswald",sans-serif}
+    .price{color:#111;font-weight:700;margin:0 0 10px}
+    .add{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:999px;background:#000;color:#fff;font-weight:800;margin:6px auto 0}
+
+    /* Why choose us */
+    .why{
+      display:grid;gap:18px
+    }
+    .why h2{font-family:"Oswald",sans-serif;margin:0}
+    .why p.lead{color:var(--muted);max-width:60ch;margin:0 0 10px}
+    .features{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:18px
+    }
+    .feature{
+      background:#f8fafc;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:grid;gap:8px
+    }
+    .feature img{width:50px}
+
+    /* Decorative image block */
+    .decor-wrap{display:grid;grid-template-columns:1fr 400px;gap:24px;align-items:center;margin-top:40px}
+    .decor{width:100%;border-radius:12px;box-shadow:var(--shadow)}
+
+    /* Contact */
+    .contact-head{
+      font-family:"Oswald",sans-serif;font-size:clamp(22px,3.4vw,32px);margin:0 0 14px;width:max-content;
+      border:6px groove var(--accent);border-radius:18px;padding:10px 16px;color:#111;background:transparent
+    }
+    .contact{
+      background:var(--primary);color:#fff;border-radius:18px;padding:28px;display:grid;gap:18px;
+      grid-template-columns:1fr 1fr;box-shadow:var(--shadow)
+    }
+    .field label{display:block;font-family:"Oswald",sans-serif;margin-bottom:6px}
+    .field input, .field textarea{
+      width:100%;padding:10px 12px;border:4px solid var(--accent);border-radius:10px;font-size:16px;font-family:"Playfair Display",serif;background:#fff;color:#111
+    }
+    textarea{min-height:110px;resize:vertical}
+    .submit-wrap{grid-column:1/-1}
+    .submit-btn{
+      background:var(--accent);color:var(--primary);border:none;border-radius:999px;padding:12px 22px;font-weight:800;cursor:pointer
+    }
+
+    /* Yellow block + blue sofa */
+    .promo{
+      display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;margin-top:32px
+    }
+    .yellow{
+      border:5px dashed var(--primary);background:var(--accent);border-radius:18px;padding:40px;min-height:160px
+    }
+    .blue-large img{width:100%;max-width:800px}
+
+    /* Footer */
+    footer{background:var(--ink);color:#fff;margin-top:60px}
+    .foot{max-width:1200px;margin:0 auto;padding:60px 20px;text-align:center}
+    .foot a{color:#dbeafe}
+
+    /* Breakpoints */
+    @media (max-width:1200px){
+      .products{grid-template-columns:repeat(3,1fr)}
+      .features{grid-template-columns:repeat(4,1fr)}
+      .decor-wrap{grid-template-columns:1fr 340px}
+    }
+    @media (max-width:992px){
+      .hero{grid-template-columns:1fr;text-align:center}
+      .hero-img{justify-self:center}
+      .crafted{grid-template-columns:1fr}
+      .products{grid-template-columns:repeat(2,1fr)}
+      .features{grid-template-columns:repeat(2,1fr)}
+      .decor-wrap{grid-template-columns:1fr}
+      .promo{grid-template-columns:1fr}
+      .yellow{min-height:auto}
+    }
+    @media (max-width:768px){
+      .menu{display:none;position:absolute;top:64px;left:0;right:0;background:rgba(25,69,105,.98);padding:14px 20px;flex-direction:column}
+      .menu a{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+      .hamb{display:flex}
+      .icons{display:none}
+      .products{grid-template-columns:1fr}
+      .contact{grid-template-columns:1fr}
+    }
+    @media (max-width:480px){
+      .card{padding:14px}
+      .feature{padding:14px}
+      .cta{flex-direction:column}
+    }
+  </style>
 </head>
+<body>
 
-<body link="white"
-      vlink="white"
-      alink="white">
+  <!-- Header / Navigation -->
+  <header id="home">
+    <div class="nav">
+      <div class="brand">SOFA</div>
 
-    <header>
-        
-        <nav class="bar">
+      <div class="hamb" id="hamb" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </div>
 
-            <h4 class="company_name">SOFA</h4>
-            <ul class="menu">
-                <div class="home"><a href="HTMLPage1.html#home">Home</a></div>
-                <div class="about"><a href="HTMLPage1.html#aboutus">About Us</a></div>
-                <div class="contact"><a href="HTMLPage1.html#contactus">Contact Us</a></div>
-            </ul>
+      <nav class="menu" id="menu">
+        <a href="#home">Home</a>
+        <a href="#aboutus">About Us</a>
+        <a href="#contactus">Contact Us</a>
+      </nav>
 
-            <div class="img_menu">
-                <div class="person"><img src="images/person.png" /></div>
-                <div class="shop"><img src="images/shop.png" /></div>
-            </div>
+      <div class="icons">
+        <img src="images/person.png" alt="Account" />
+        <img src="images/shop.png" alt="Cart" />
+      </div>
+    </div>
 
-        </nav>
-
-        <div class="main_title">
-            <h1 class="title">Modren interior Design Studio</h1>
-            <h3 class="text_title">“Discover the perfect blend of comfort, quality, and style with our premium sofas. Designed to elevate your living space, our collection offers a wide range of modern and classic designs to suit every taste. Create a cozy and elegant atmosphere you’ll love coming home to.”</h3>
-            <div class="main_button">
-                <input type="button" id="shop_now" value="Shop Now" />
-                <input type="button" id="explore" value="Explore" />
-            </div>
+    <!-- Hero -->
+    <div class="hero">
+      <div>
+        <h1>Modren interior Design Studio</h1>
+        <p>“Discover the perfect blend of comfort, quality, and style with our premium sofas. Designed to elevate your living space, our collection offers a wide range of modern and classic designs to suit every taste. Create a cozy and elegant atmosphere you’ll love coming home to.”</p>
+        <div class="cta">
+          <button class="btn primary">Shop Now</button>
+          <button class="btn">Explore</button>
         </div>
-        <div class="blue_sofa">
-            <img src="images/bluesofa.png" />
-        </div>
+      </div>
+      <div class="hero-img">
+        <img src="images/bluesofa.png" alt="Blue sofa" />
+      </div>
+    </div>
+  </header>
 
-    </header>
+  <main>
+    <!-- Crafted with material -->
+    <section class="crafted">
+      <div>
+        <h2>Crafted with excellent material.</h2>
+        <p>“Our sofas are crafted with high-quality materials, offering both durability and comfort. The fabric used is soft to the touch, yet resistant to wear and tear, ensuring long-lasting use. Available in a variety of colors and styles, our sofas suit any modern home decor. Experience the perfect combination of elegance and relaxation with our premium sofa materials.”</p>
+        <button class="btn ghost">Explore</button>
+      </div>
 
-    <main>
-        <div class="main_topic">
-            <h1 class="title_topic">Crafted with excellent material.</h1>
-            <h3 class="text_topic">
-                “Our sofas are crafted with high-quality materials, offering both durability and comfort. The fabric used is soft to the touch, yet resistant to wear and tear, ensuring long-lasting use. Available in a variety of colors and styles, our sofas suit any modern home decor. Experience the perfect combination of elegance and relaxation with our premium sofa materials.”
-            </h3>
-            <div class="explore1">
-                <input type="button" id="explore1" value="Explore" />
-            </div>
-        </div>
-        <div class="proudct">
-            <div class="proudct_sofa">
-                <a href="proudect.html#sofa3"><img src="images/sofa3.png"></a>
-                <div class="proudct_info">
-                    <h1 class="proudct_nam">Gray Sofa</h1>
-                    <p class="price">$50,000</p>
-                    <span class="add_to">+</span>
-                </div>
-            </div>
-            <div class="proudct_sofa">
-                <a href="proudect.html#sofa4"><img src="images/sofa4.png" /></a>
-                <div class="proudct_info">
-                    <h1 class="proudct_nam">Darkgray Sofa</h1>
-                    <p class="price">$30,000</p>
-                    <span class="add_to">+</span>
-                </div>
-            </div>
-            <div class="proudct_sofa">
-                <a href="proudect.html#armchear"><img src="images/armchear2.png" /></a>
-                <div class="proudct_info">
-                    <h1 class="proudct_nam">Green Sofa</h1>
-                    <p class="price">$22,000</p>
-                    <span class="add_to">+</span>
-                </div>
-            </div>
-        </div>
+      <div class="products">
+        <article class="card">
+          <a href="proudect.html#sofa3"><img src="images/sofa3.png" alt="Gray Sofa"></a>
+          <h3>Gray Sofa</h3>
+          <p class="price">$50,000</p>
+          <div class="add">+</div>
+        </article>
+        <article class="card">
+          <a href="proudect.html#sofa4"><img src="images/sofa4.png" alt="Darkgray Sofa"></a>
+          <h3>Darkgray Sofa</h3>
+          <p class="price">$30,000</p>
+          <div class="add">+</div>
+        </article>
+        <article class="card">
+          <a href="proudect.html#armchear"><img src="images/armchear2.png" alt="Green Sofa"></a>
+          <h3>Green Sofa</h3>
+          <p class="price">$22,000</p>
+          <div class="add">+</div>
+        </article>
+      </div>
+    </section>
 
-        <div class="about_container">
-            <a name="aboutus"><h1 class="about_title">Whe Choose Us</h1></a>
-            <p class="about_text">We deliver high-quality products and services designed to meet and exceed our customers’ expectations.</p>
-            <div class="about_info">
-                <div class="info">
-                    <img src="images/van.png" />
-                    <h3 class="info_topic">Fast Delivery</h3>
-                    <p class="info_text">
-                        We ensure your orders are delivered quickly and on time. Our goal is to provide you with a seamless shopping experience that exceeds your expectations.
-                    </p>
-                </div>                <div class="info">
-                    <img src="images/suppotr.png" />
-                    <h3 class="info_topic">24/7 Support</h3>
-                    <p class="info_text">
-                        Our support team is available around the clock to assist you with any questions or concerns, ensuring a smooth and reliable experience.
-                    </p>
-                </div>
-                <div class="info2">
-                    <div class="info">
-                        <img src="images/time.png" />
-                        <h3 class="info_topic">Quick Refunds</h3>
-                        <p class="info_text">
-                            We offer a fast and hassle-free refund process to guarantee your satisfaction and build your trust in our services.
-                        </p>
-                    </div>                <div class="info">
-                        <img src="images/bag.png" />
-                        <h3 class="info_topic">Easy Shopping</h3>
-                        <p class="info_text">
-                            Our platform is designed to be simple and user-friendly, allowing you to shop effortlessly with just a few clicks.
+    <!-- Why choose us -->
+    <section id="aboutus" class="why">
+      <h2>Whe Choose Us</h2>
+      <p class="lead">We deliver high-quality products and services designed to meet and exceed our customers’ expectations.</p>
 
-                        </p>
-                    </div>
-                </div>
-            </div>
+      <div class="features">
+        <div class="feature">
+          <img src="images/van.png" alt="Fast delivery" />
+          <h3 class="info_topic">Fast Delivery</h3>
+          <p class="info_text">We ensure your orders are delivered quickly and on time. Our goal is to provide you with a seamless shopping experience that exceeds your expectations.</p>
         </div>
-        <img src="images/decore.jpeg" class="decore" />
-        <div class="contact_us"><a name="contactus"> Contact Us </a></div>
-        <div class="contactus">
+        <div class="feature">
+          <img src="images/suppotr.png" alt="24/7 support" />
+          <h3 class="info_topic">24/7 Support</h3>
+          <p class="info_text">Our support team is available around the clock to assist you with any questions or concerns, ensuring a smooth and reliable experience.</p>
+        </div>
+        <div class="feature">
+          <img src="images/time.png" alt="Quick refunds" />
+          <h3 class="info_topic">Quick Refunds</h3>
+          <p class="info_text">We offer a fast and hassle-free refund process to guarantee your satisfaction and build your trust in our services.</p>
+        </div>
+        <div class="feature">
+          <img src="images/bag.png" alt="Easy shopping" />
+          <h3 class="info_topic">Easy Shopping</h3>
+          <p class="info_text">Our platform is designed to be simple and user-friendly, allowing you to shop effortlessly with just a few clicks.</p>
+        </div>
+      </div>
 
-            <div class="firstname">
-                <p>first name</p>
-                <input type="text" id="firstname" />
-            </div>
-            <div class="lastname">
-                <p>last name</p>
-                <input type="text" id="lastname" />
-            </div>
-            <div class="email">
-                <p>Email</p>
-                <input type="email" id="email" />
-            </div>
-            <div class="massage">
-                <p>Enter the massage </p>
-                <input type="text" id="massage" />
-            </div>
-            <div class="submit">
-                <input type="button" id="submit" value="Submit" />
-            </div>
+      <div class="decor-wrap">
+        <p></p>
+        <img class="decor" src="images/decore.jpeg" alt="Decorative" />
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contactus">
+      <h3 class="contact-head">Contact Us</h3>
+      <div class="contact">
+        <div class="field">
+          <label for="firstname">first name</label>
+          <input id="firstname" type="text" />
         </div>
-        <div class="yellow_sqr"></div>
-        <div class="bluesofa"><img src="images/blue.png" /></div>
-    </main>
-    <footer>
-        <div class="footer_background">
-            <p>Create by REMAS QUMA<br /></p>
-            <a href="mailto:remasquma2@gmail.com">remasquma2@gmail.com</a>
+        <div class="field">
+          <label for="lastname">last name</label>
+          <input id="lastname" type="text" />
         </div>
-    </footer>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" />
+        </div>
+        <div class="field">
+          <label for="message">Enter the massage</label>
+          <textarea id="message"></textarea>
+        </div>
+        <div class="submit-wrap">
+          <button class="submit-btn">Submit</button>
+        </div>
+      </div>
+
+      <div class="promo">
+        <div class="yellow"></div>
+        <div class="blue-large">
+          <img src="images/blue.png" alt="Blue sofa" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot">
+      <p>Create by REMAS QUMA</p>
+      <p><a href="mailto:remasquma2@gmail.com">remasquma2@gmail.com</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // mobile menu
+    const hamb = document.getElementById('hamb');
+    const menu = document.getElementById('menu');
+    hamb.addEventListener('click', () => {
+      const open = getComputedStyle(menu).display !== 'none';
+      menu.style.display = open ? 'none' : 'flex';
+      hamb.setAttribute('aria-expanded', String(!open));
+    });
+    // close on link click (mobile)
+    [...menu.querySelectorAll('a')].forEach(a=>{
+      a.addEventListener('click', ()=> {
+        if (window.innerWidth <= 768) menu.style.display='none';
+      });
+    });
+  </script>
 </body>
-
 </html>
